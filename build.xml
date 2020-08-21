@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="adam_mc" default="jar">
+	<!-- For building the standalone version in libs.res the jars have to start with ${libfolder}/ and have to be put int ${mainfolder}/lib 
+and the classes have to start with ${mainfolder}/ and have to be located from the directory where the build_macros.xml is positioned. -->
+
+	<dirname property="mc.basedir" file="${ant.file.adam_mc}"/>
+
+<!--  %%%%%%%%%%%%%%%%%%%%%%%%%%%%% IMPORTS %%%%%%%%%%%%%%%%%%%%%%%%%%% -->	
+	<property file="${mc.basedir}/build.properties"/>
+	<import file="${mainfolder}/build_macros.xml" optional="false"/>
+	<include file="${mainfolder}/build_targets.xml" as="mc.fu" optional="false"/>
+
+<!--  %%%%%%%%%%%%%%%%%%%%%%%%%%%%% PATHs %%%%%%%%%%%%%%%%%%%%%%%%%%% -->	
+	<union id="mc.jar.res">    			
+<!--			<zipfileset includes="**/*.class" src="${mainfolder}/lib/apt/apt.jar"/>
+			<zipfileset includes="**/*.stg" src="${mainfolder}/lib/apt/apt.jar"/>
+			<zipfileset includes="**/*.class" src="${mainfolder}/lib/commons-io-2.4/commons-io-2.4.jar"/>
+			<zipfileset includes="**/*.class" src="${logics.basedir}/lib/apt/apt-lib.jar"/>
+			<zipfileset includes="**/*.class" src="${logics.basedir}/lib/apt/apt-io.jar"/>
+			<zipfileset includes="**/*.stg" src="${logics.basedir}/lib/apt/apt-io.jar"/>-->
+	</union>
+
+<!--  %%%%%%%%%%%%%%%%%%%%%%%%%%%%% PROPERTIES %%%%%%%%%%%%%%%%%%%%%%%%%%% -->	
+	<target name="loadProperties">
+		<property file="${subproject.basedir}/build.properties"/>		
+	</target>
+
+<!--  %%%%%%%%%%%%%%%%%%%%%%%%%%%%% DELEGATES %%%%%%%%%%%%%%%%%%%%%%%%%%% -->	
+	<target name="test" depends="loadProperties" description="Runs all tests">
+		<antcall target="mc.fu.test"/>
+			<!--<ant antfile="${logics.basedir}/build_logics.xml" target="test"></ant>	-->	
+	</target>
+	<target name="test-method" depends="loadProperties" description="Runs the tests of a specific method">
+		<antcall target="mc.fu.test-method"/>
+	</target>
+	<target name="test-class" depends="loadProperties" description="Runs the tests of a specific class">
+		<antcall target="mc.fu.test-class"/>
+	</target>
+	<target name="jar" depends="loadProperties" description="Builds a jar with all its dependencies">
+		<antcall target="mc.fu.jar"/>
+	</target>
+	<target name="jar-standalone" depends="loadProperties" description="Builds a jar with all its dependencies">
+		<antcall target="mc.fu.jar-standalone"/>
+	</target>
+	<target name="javadoc" depends="loadProperties" description="Creates the JavaDoc of this package.">
+		<antcall target="bounded.fu.javadoc"/>
+	</target>
+    <target name="deploy" depends="clean-all,jar-standalone" description="Builds a jar with all its dependencies">
+		<jar destfile="adam_mc.jar">
+			<zipfileset includes="**/*.class" src="./adam_mc-standalone.jar"/>
+			<zipfileset includes="**/*.stg" src="./adam_mc-standalone.jar"/>
+		<!--	<zipfileset dir="${libfolder}" includes="quabs_mac" fullpath="lib/quabs_mac"/>
+			<zipfileset dir="${libfolder}" includes="quabs_unix" fullpath="lib/quabs_unix"/>-->
+			<manifest>
+				<attribute name="Main-Class" value="uniolunisaar.adam.main.ui.cl.AdamMC"/>
+			</manifest>
+		</jar>	
+	</target>
+	<target name="clean" depends="loadProperties" description="Cleans all temporary files.">
+		<antcall target="mc.fu.clean"/>
+	</target>
+	<target name="clean-all" depends="loadProperties" description="Cleans all temporary files including the reports">
+		<antcall target="mc.fu.clean-all"/>
+	</target>
+</project>
