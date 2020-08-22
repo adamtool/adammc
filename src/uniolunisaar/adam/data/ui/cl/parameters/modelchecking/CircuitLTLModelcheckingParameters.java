@@ -3,7 +3,6 @@ package uniolunisaar.adam.data.ui.cl.parameters.modelchecking;
 import java.io.FileNotFoundException;
 import org.apache.commons.cli.CommandLine;
 import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
-import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
 import uniolunisaar.adam.ds.modelchecking.output.AdamCircuitLTLMCOutputData;
 import uniolunisaar.adam.ds.modelchecking.settings.ltl.AdamCircuitLTLMCSettings;
 import uniolunisaar.adam.ds.modelchecking.statistics.AdamCircuitFlowLTLMCStatistics;
