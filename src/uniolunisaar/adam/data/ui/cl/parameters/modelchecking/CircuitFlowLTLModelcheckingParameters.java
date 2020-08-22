@@ -7,13 +7,12 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
-import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
-import static uniolunisaar.adam.data.ui.cl.parameters.modelchecking.CircuitLTLModelcheckingParameters.handleParameters;
 import uniolunisaar.adam.ds.modelchecking.output.AdamCircuitFlowLTLMCOutputData;
-import uniolunisaar.adam.ds.modelchecking.settings.AdamCircuitFlowLTLMCSettings;
+import uniolunisaar.adam.ds.modelchecking.settings.ltl.AdamCircuitFlowLTLMCSettings;
 import uniolunisaar.adam.ds.modelchecking.settings.ModelCheckingSettings;
 import uniolunisaar.adam.ds.modelchecking.statistics.AdamCircuitFlowLTLMCStatistics;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
+import static uniolunisaar.adam.data.ui.cl.parameters.modelchecking.CircuitLTLModelcheckingParameters.handleParameters;
 
 /**
  *
@@ -53,8 +52,16 @@ public class CircuitFlowLTLModelcheckingParameters extends CircuitModelcheckingP
     }
 
     public static AdamCircuitFlowLTLMCSettings getMCSettings(CommandLine line, boolean verbose) throws CommandLineParseException, FileNotFoundException {
+        // Outputdata
+        String outputPath = IOParameters.getOutput(line);
+        AdamCircuitFlowLTLMCOutputData data = new AdamCircuitFlowLTLMCOutputData(
+                outputPath,
+                CircuitLTLModelcheckingParameters.saveCircuit(line),
+                CircuitFlowLTLModelcheckingParameters.saveTransformedNet(line),
+                verbose);
+
         // Settings
-        AdamCircuitFlowLTLMCSettings settings = new AdamCircuitFlowLTLMCSettings();
+        AdamCircuitFlowLTLMCSettings settings = new AdamCircuitFlowLTLMCSettings(data);
         handleParameters(line, settings);
 
         // stucking 
@@ -88,15 +95,6 @@ public class CircuitFlowLTLModelcheckingParameters extends CircuitModelcheckingP
             }
             settings.setApproach(appr);
         }
-
-        // Outputdata
-        String outputPath = IOParameters.getOutput(line);
-        AdamCircuitFlowLTLMCOutputData data = new AdamCircuitFlowLTLMCOutputData(
-                outputPath,
-                CircuitLTLModelcheckingParameters.saveCircuit(line),
-                CircuitFlowLTLModelcheckingParameters.saveTransformedNet(line),
-                verbose);
-        settings.setOutputData(data);
 
         // Statistics       
         String statsOut = CircuitModelcheckingParameters.getStatisticsFile(line);

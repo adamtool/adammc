@@ -9,10 +9,13 @@ import uniol.apt.adt.pn.PetriNet;
 import uniol.apt.io.parser.ParseException;
 import uniol.apt.module.exception.ModuleException;
 import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
-import uniolunisaar.adam.ds.logics.ltl.flowltl.RunFormula;
+import uniolunisaar.adam.exceptions.pg.NoStrategyExistentException;
+import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
+import uniolunisaar.adam.logic.externaltools.modelchecking.Abc.VerificationAlgo;
+import uniolunisaar.adam.ds.logics.ltl.flowltl.RunLTLFormula;
 import uniolunisaar.adam.logic.parser.logics.flowltl.FlowLTLParser;
 import uniolunisaar.adam.util.PNWTTools;
-import uniolunisaar.adam.logic.modelchecking.circuits.ModelCheckerFlowLTL;
+import uniolunisaar.adam.logic.modelchecking.ltl.circuits.ModelCheckerFlowLTL;
 import uniolunisaar.adam.ds.modelchecking.statistics.AdamCircuitFlowLTLMCStatistics;
 import uniolunisaar.adam.ds.petrinetwithtransits.PetriNetWithTransits;
 import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
@@ -20,9 +23,13 @@ import uniolunisaar.adam.tools.Logger;
 import uniolunisaar.adam.tools.Tools;
 import uniolunisaar.adam.logic.ui.cl.modules.AbstractSimpleModule;
 import uniolunisaar.adam.data.ui.cl.parameters.modelchecking.CircuitFlowLTLModelcheckingParameters;
+import uniolunisaar.adam.ds.circuits.CircuitRendererSettings;
 import uniolunisaar.adam.ds.modelchecking.output.AdamCircuitFlowLTLMCOutputData;
-import uniolunisaar.adam.ds.modelchecking.settings.AdamCircuitFlowLTLMCSettings;
+import uniolunisaar.adam.ds.modelchecking.settings.ModelCheckingSettings;
+import uniolunisaar.adam.ds.modelchecking.settings.ltl.AdamCircuitFlowLTLMCSettings;
+import uniolunisaar.adam.ds.modelchecking.settings.ltl.AdamCircuitMCSettings;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
+import uniolunisaar.adam.logic.transformers.pn2aiger.AigerRenderer;
 import uniolunisaar.adam.util.benchmarks.modelchecking.BenchmarksMC;
 
 /**
@@ -58,7 +65,7 @@ public class BenchmarkCAV2019 extends AbstractSimpleModule {
     }
 
     @Override
-    public void execute(CommandLine line) throws IOException, InterruptedException, FileNotFoundException, ModuleException, NetNotSafeException, ParseException, CommandLineParseException, Exception {
+    public void execute(CommandLine line) throws IOException, InterruptedException, FileNotFoundException, ModuleException, NetNotSafeException, NoSuitableDistributionFoundException, NoStrategyExistentException, ParseException, CommandLineParseException, Exception {
         super.execute(line);
         String input = IOParameters.getInput(line);
         PetriNet net;
@@ -67,7 +74,7 @@ public class BenchmarkCAV2019 extends AbstractSimpleModule {
         PetriNetWithTransits pnwt = PNWTTools.getPetriNetWithTransitsFromParsedPetriNet(net, false);
         String formula = (String) pnwt.getExtension("formula");
 //        String formula = line.getOptionValue(PARAMETER_FORMULA);
-        RunFormula f = FlowLTLParser.parse(pnwt, formula);
+        RunLTLFormula f = FlowLTLParser.parse(pnwt, formula);
 
         String output = IOParameters.getOutput(line);
 
@@ -81,21 +88,39 @@ public class BenchmarkCAV2019 extends AbstractSimpleModule {
 //        VerificationAlgo algo = CircuitFlowLTLModelcheckingParameters.getVerificationAlgorithm(line);
 
 //        String abcParameter = CircuitFlowLTLModelcheckingParameters.getABCParameters(line);
-
-        AdamCircuitFlowLTLMCSettings settings = new AdamCircuitFlowLTLMCSettings();
-//        settings.setAbcParameters(abcParameter);
-//        if (algo != null) {
-//            settings.setVerificationAlgo(algo);
-//        }
-//        settings.setMaximality(CircuitFlowLTLModelcheckingParameters.getMaximality(line));
-
+// ATTENTION: FURTHER RESTRUCTURING WAS NECESSARY, CANNOT ENSURE THAT THE PARAMETER FITS THE ORIGINAL ONE OF THE SUBMISSION!
+//        AdamCircuitFlowLTLMCSettings settings = new AdamCircuitFlowLTLMCSettings();
+////        settings.setAbcParameters(abcParameter);
+////        if (algo != null) {
+////            settings.setVerificationAlgo(algo);
+////        }
+////        settings.setMaximality(CircuitFlowLTLModelcheckingParameters.getMaximality(line));
+//
+//        AdamCircuitFlowLTLMCOutputData data = new AdamCircuitFlowLTLMCOutputData(
+//                output,
+//                false,
+//                false,
+//                false);
+//        settings.setOutputData(data);
+//        settings.setStatistics(stats);
         AdamCircuitFlowLTLMCOutputData data = new AdamCircuitFlowLTLMCOutputData(
                 output,
                 false,
                 false,
                 false);
-        settings.setOutputData(data);
+
+        AdamCircuitFlowLTLMCSettings settings = new AdamCircuitFlowLTLMCSettings(
+                data,
+                ModelCheckingSettings.Approach.SEQUENTIAL_INHIBITOR,
+                AdamCircuitMCSettings.Maximality.MAX_INTERLEAVING_IN_CIRCUIT,
+                AdamCircuitMCSettings.Stuttering.PREFIX_REGISTER,
+                CircuitRendererSettings.TransitionSemantics.OUTGOING,
+                CircuitRendererSettings.TransitionEncoding.EXPLICIT,
+                CircuitRendererSettings.AtomicPropositions.PLACES_AND_TRANSITIONS,
+                AigerRenderer.OptimizationsSystem.NONE, AigerRenderer.OptimizationsComplete.NONE,
+                new VerificationAlgo[]{VerificationAlgo.IC3});
         settings.setStatistics(stats);
+
         ModelCheckerFlowLTL mc = new ModelCheckerFlowLTL(settings);
         mc.check(pnwt, f);
     }

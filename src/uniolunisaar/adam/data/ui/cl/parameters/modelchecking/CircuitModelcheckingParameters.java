@@ -6,9 +6,10 @@ import java.util.Map;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
+import uniolunisaar.adam.ds.circuits.CircuitRendererSettings;
 import uniolunisaar.adam.ds.modelchecking.output.AdamCircuitLTLMCOutputData;
-import uniolunisaar.adam.ds.modelchecking.settings.AdamCircuitMCSettings;
-import uniolunisaar.adam.ds.modelchecking.settings.AdamCircuitMCSettings.Maximality;
+import uniolunisaar.adam.ds.modelchecking.settings.ltl.AdamCircuitMCSettings;
+import uniolunisaar.adam.ds.modelchecking.settings.ltl.AdamCircuitMCSettings.Maximality;
 import uniolunisaar.adam.ds.modelchecking.statistics.AdamCircuitLTLMCStatistics;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.logic.externaltools.modelchecking.Abc;
@@ -34,6 +35,8 @@ public class CircuitModelcheckingParameters {
     private static final String PARAMETER_CIRCUIT_REDUCTION_ABC = "cr_abc";
     private static final String PARAMETER_CIRCUIT_PREPROCESSING = "pre";
     private static final String PARAMETER_CIRCUIT_ENCODING = "enc";
+    private static final String PARAMETER_CIRCUIT_ATOMS = "atoms";
+    private static final String PARAMETER_CIRCUIT_SEMANTICS = "sem";
     private static final String PARAMETER_MCHYPER_TOFORMULA = "noF";
 
     public Map<String, Option> createOptions() {
@@ -87,6 +90,20 @@ public class CircuitModelcheckingParameters {
         OptionBuilder.withLongOpt("encoding");
         OptionBuilder.withType(String.class);
         options.put(PARAMETER_CIRCUIT_ENCODING, OptionBuilder.create(PARAMETER_CIRCUIT_ENCODING));
+
+        // Transition semantics        
+        OptionBuilder.hasArg();
+        OptionBuilder.withDescription("Semantics of the atomic propositions 'transitions'. Possible values: ingoing | outgoing. Standard: outgoing.");
+        OptionBuilder.withLongOpt("trans_semantics");
+        OptionBuilder.withType(String.class);
+        options.put(PARAMETER_CIRCUIT_SEMANTICS, OptionBuilder.create(PARAMETER_CIRCUIT_SEMANTICS));
+
+        // Atomic propositoins
+        OptionBuilder.hasArg();
+        OptionBuilder.withDescription("Which atomic propositions are allowed. Possible values: pl_tr | pl | fireability . Standard: pl_tr.");
+        OptionBuilder.withLongOpt("atoms");
+        OptionBuilder.withType(String.class);
+        options.put(PARAMETER_CIRCUIT_ATOMS, OptionBuilder.create(PARAMETER_CIRCUIT_ATOMS));
 
         // Optimizations
         OptionBuilder.hasArg();
@@ -238,11 +255,33 @@ public class CircuitModelcheckingParameters {
         if (line.hasOption(PARAMETER_CIRCUIT_ENCODING)) {
             String encoding = line.getOptionValue(PARAMETER_CIRCUIT_ENCODING);
             if (encoding.equals("logEnc")) {
-                settings.setCodeInputTransitionsBinary(true);
+                settings.setTransitionEncoding(CircuitRendererSettings.TransitionEncoding.LOGARITHMIC);
             } else if (encoding.equals("expEnc")) {
-                settings.setCodeInputTransitionsBinary(false);
+                settings.setTransitionEncoding(CircuitRendererSettings.TransitionEncoding.EXPLICIT);
             } else {
                 throw new CommandLineParseException("The value '" + encoding + "' is no suitable encoding key.");
+            }
+        }
+        if (line.hasOption(PARAMETER_CIRCUIT_ATOMS)) {
+            String atoms = line.getOptionValue(PARAMETER_CIRCUIT_ATOMS);
+            if (atoms.equals("pl_tr")) {
+                settings.setCircuitAtoms(CircuitRendererSettings.AtomicPropositions.PLACES_AND_TRANSITIONS);
+            } else if (atoms.equals("pl")) {
+                settings.setCircuitAtoms(CircuitRendererSettings.AtomicPropositions.PLACES);
+            } else if (atoms.equals("fireability")) {
+                settings.setCircuitAtoms(CircuitRendererSettings.AtomicPropositions.FIREABILITY);
+            } else {
+                throw new CommandLineParseException("The value '" + atoms + "' is no suitable encoding key.");
+            }
+        }
+        if (line.hasOption(PARAMETER_CIRCUIT_SEMANTICS)) {
+            String semantics = line.getOptionValue(PARAMETER_CIRCUIT_SEMANTICS);
+            if (semantics.equals("ingoing")) {
+                settings.setTransitionSemantics(CircuitRendererSettings.TransitionSemantics.INGOING);
+            } else if (semantics.equals("outgoing")) {
+                settings.setTransitionSemantics(CircuitRendererSettings.TransitionSemantics.OUTGOING);
+            } else {
+                throw new CommandLineParseException("The value '" + semantics + "' is no suitable encoding key.");
             }
         }
         if (line.hasOption(PARAMETER_MCHYPER_TOFORMULA)) {

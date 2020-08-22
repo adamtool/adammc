@@ -5,7 +5,7 @@ import org.apache.commons.cli.CommandLine;
 import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
 import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
 import uniolunisaar.adam.ds.modelchecking.output.AdamCircuitLTLMCOutputData;
-import uniolunisaar.adam.ds.modelchecking.settings.AdamCircuitLTLMCSettings;
+import uniolunisaar.adam.ds.modelchecking.settings.ltl.AdamCircuitLTLMCSettings;
 import uniolunisaar.adam.ds.modelchecking.statistics.AdamCircuitFlowLTLMCStatistics;
 import uniolunisaar.adam.ds.modelchecking.statistics.AdamCircuitLTLMCStatistics;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
@@ -17,17 +17,16 @@ import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 public class CircuitLTLModelcheckingParameters extends CircuitModelcheckingParameters {
 
     public static AdamCircuitLTLMCSettings getMCSettings(CommandLine line, boolean verbose) throws CommandLineParseException, FileNotFoundException {
-        // Settings
-        AdamCircuitLTLMCSettings settings = new AdamCircuitLTLMCSettings();
-        handleParameters(line, settings);
-
         // Outputdata
         String outputPath = IOParameters.getOutput(line);
         AdamCircuitLTLMCOutputData data = new AdamCircuitLTLMCOutputData(
                 outputPath,
                 CircuitModelcheckingParameters.saveCircuit(line),
                 verbose);
-        settings.setOutputData(data);
+
+        // Settings
+        AdamCircuitLTLMCSettings settings = new AdamCircuitLTLMCSettings(data);
+        handleParameters(line, settings);
 
         // Statistics
         String statsOut = CircuitModelcheckingParameters.getStatisticsFile(line);

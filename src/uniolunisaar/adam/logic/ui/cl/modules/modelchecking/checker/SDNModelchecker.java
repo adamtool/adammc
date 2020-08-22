@@ -10,9 +10,9 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.OptionGroup;
 import uniol.apt.io.parser.ParseException;
 import uniol.apt.module.exception.ModuleException;
-import uniolunisaar.adam.ds.logics.ltl.flowltl.RunFormula;
+import uniolunisaar.adam.ds.logics.ltl.flowltl.RunLTLFormula;
 import uniolunisaar.adam.logic.parser.logics.flowltl.FlowLTLParser;
-import uniolunisaar.adam.ds.modelchecking.ModelCheckingResult;
+import uniolunisaar.adam.ds.modelchecking.results.LTLModelCheckingResult;
 import uniolunisaar.adam.exceptions.ExternalToolException;
 import uniolunisaar.adam.ds.petrinetwithtransits.PetriNetWithTransits;
 import uniolunisaar.adam.tools.Logger;
@@ -23,13 +23,13 @@ import uniolunisaar.adam.logic.ui.cl.modules.AbstractSimpleModule;
 import uniolunisaar.adam.data.ui.cl.parameters.modelchecking.CircuitFlowLTLModelcheckingParameters;
 import uniolunisaar.adam.data.ui.cl.parameters.modelchecking.CircuitLTLModelcheckingParameters;
 import uniolunisaar.adam.ds.logics.ltl.ILTLFormula;
-import uniolunisaar.adam.ds.modelchecking.settings.AdamCircuitFlowLTLMCSettings;
-import uniolunisaar.adam.ds.modelchecking.settings.AdamCircuitLTLMCSettings;
+import uniolunisaar.adam.ds.modelchecking.settings.ltl.AdamCircuitFlowLTLMCSettings;
+import uniolunisaar.adam.ds.modelchecking.settings.ltl.AdamCircuitLTLMCSettings;
 import uniolunisaar.adam.ds.modelchecking.statistics.AdamCircuitLTLMCStatistics;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.generators.pnwt.SDNCreator;
-import uniolunisaar.adam.logic.modelchecking.circuits.ModelCheckerFlowLTL;
-import uniolunisaar.adam.logic.modelchecking.circuits.ModelCheckerLTL;
+import uniolunisaar.adam.logic.modelchecking.ltl.circuits.ModelCheckerFlowLTL;
+import uniolunisaar.adam.logic.modelchecking.ltl.circuits.ModelCheckerLTL;
 import uniolunisaar.adam.util.PNWTTools;
 import uniolunisaar.adam.util.mc.sdn.SDNFormelCreator;
 
@@ -127,7 +127,7 @@ public class SDNModelchecker extends AbstractSimpleModule {
         PetriNetWithTransits pnwt = SDNCreator.parse(topology, update, line.hasOption(PARAMETER_OPTIMIZE_CONNECTIONS));
 
         // GET THE FORMULA 
-        RunFormula f;
+        RunLTLFormula f;
         ILTLFormula ltlF = null;
         if (line.hasOption(PARAMETER_FORMULA)) { // GIVEN BY THE COMMANDLINE
             String formula = line.getOptionValue(PARAMETER_FORMULA);
@@ -168,7 +168,7 @@ public class SDNModelchecker extends AbstractSimpleModule {
 
         // GETTING THE MC PARAMETERS
         AdamCircuitLTLMCStatistics stats;
-        ModelCheckingResult ret;
+        LTLModelCheckingResult ret;
         String formulaSymbolString;
         if (ltlF != null) { // it was just an LTL formula
             AdamCircuitLTLMCSettings settings = CircuitLTLModelcheckingParameters.getMCSettings(line, verbose);
@@ -187,9 +187,9 @@ public class SDNModelchecker extends AbstractSimpleModule {
         if (stats != null) {
             Logger.getInstance().addMessage(stats.toString(), false);
         }
-        if (ret.getSatisfied() == ModelCheckingResult.Satisfied.TRUE) {
+        if (ret.getSatisfied() == LTLModelCheckingResult.Satisfied.TRUE) {
             Logger.getInstance().addMessage("The net '" + pnwt.getName() + "' SATISFIES the formula '" + formulaSymbolString + "'", false, true);
-        } else if (ret.getSatisfied() == ModelCheckingResult.Satisfied.FALSE) {
+        } else if (ret.getSatisfied() == LTLModelCheckingResult.Satisfied.FALSE) {
             Logger.getInstance().addMessage("The net '" + pnwt.getName() + "' does NOT SATISFY the formula '" + formulaSymbolString + "'", false, true);
             Logger.getInstance().addMessage("A counter examples is: " + ret.getCex().toString(), false, false);
         } else {

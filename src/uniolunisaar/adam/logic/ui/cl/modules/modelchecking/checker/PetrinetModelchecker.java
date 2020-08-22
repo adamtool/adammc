@@ -14,11 +14,11 @@ import uniol.apt.io.parser.ParseException;
 import uniol.apt.io.parser.impl.PnmlPNParser;
 import uniol.apt.module.exception.ModuleException;
 import uniolunisaar.adam.ds.logics.ltl.ILTLFormula;
-import uniolunisaar.adam.ds.logics.ltl.flowltl.RunFormula;
+import uniolunisaar.adam.ds.logics.ltl.flowltl.RunLTLFormula;
 import uniolunisaar.adam.logic.parser.logics.flowltl.FlowLTLParser;
 import uniolunisaar.adam.util.logics.FormulaCreator;
-import uniolunisaar.adam.logic.modelchecking.circuits.ModelCheckerLTL;
-import uniolunisaar.adam.ds.modelchecking.ModelCheckingResult;
+import uniolunisaar.adam.logic.modelchecking.ltl.circuits.ModelCheckerLTL;
+import uniolunisaar.adam.ds.modelchecking.results.LTLModelCheckingResult;
 import uniolunisaar.adam.exceptions.ExternalToolException;
 import uniolunisaar.adam.tools.Logger;
 import uniolunisaar.adam.exceptions.ProcessNotStartedException;
@@ -27,7 +27,7 @@ import uniolunisaar.adam.tools.Tools;
 import uniolunisaar.adam.data.ui.cl.parameters.IOParameters;
 import uniolunisaar.adam.logic.ui.cl.modules.AbstractSimpleModule;
 import uniolunisaar.adam.data.ui.cl.parameters.modelchecking.CircuitLTLModelcheckingParameters;
-import uniolunisaar.adam.ds.modelchecking.settings.AdamCircuitLTLMCSettings;
+import uniolunisaar.adam.ds.modelchecking.settings.ltl.AdamCircuitLTLMCSettings;
 import uniolunisaar.adam.ds.modelchecking.statistics.AdamCircuitLTLMCStatistics;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.util.PNTools;
@@ -136,7 +136,7 @@ public class PetrinetModelchecker extends AbstractSimpleModule {
         if (line.hasOption(PARAMETER_FORMULA)) { // GIVEN BY THE COMMANDLINE
             String formula = line.getOptionValue(PARAMETER_FORMULA);
             try {
-                RunFormula f = FlowLTLParser.parse(net, formula);
+                RunLTLFormula f = FlowLTLParser.parse(net, formula);
                 if (!(f.getPhi() instanceof ILTLFormula)) {
                     throw new ModuleException("The formula '" + f.toSymbolString() + "' is not an LTL formula.");
                 }
@@ -171,14 +171,14 @@ public class PetrinetModelchecker extends AbstractSimpleModule {
         AdamCircuitLTLMCSettings settings = CircuitLTLModelcheckingParameters.getMCSettings(line, verbose);
         AdamCircuitLTLMCStatistics stats = settings.getStatistics();
         ModelCheckerLTL mc = new ModelCheckerLTL(settings);
-        ModelCheckingResult ret = mc.check(net, ltl);
+        LTLModelCheckingResult ret = mc.check(net, ltl);
 
         if (stats != null) {
             Logger.getInstance().addMessage(stats.toString(), false);
         }
-        if (ret.getSatisfied() == ModelCheckingResult.Satisfied.TRUE) {
+        if (ret.getSatisfied() == LTLModelCheckingResult.Satisfied.TRUE) {
             Logger.getInstance().addMessage("The net '" + net.getName() + "' SATISFIES the formula '" + ltl.toSymbolString() + "'", false, true);
-        } else if (ret.getSatisfied() == ModelCheckingResult.Satisfied.FALSE) {
+        } else if (ret.getSatisfied() == LTLModelCheckingResult.Satisfied.FALSE) {
             Logger.getInstance().addMessage("The net '" + net.getName() + "' does NOT SATISFY the formula '" + ltl.toSymbolString() + "'", false, true);
             Logger.getInstance().addMessage("A counter examples is: " + ret.getCex().toString(), false, false);
         } else {
