@@ -17,6 +17,7 @@ t=jar
 .PHONY: mc
 .PHONY: ui
 .PHONY: adammc
+.PHONY: deploy
 #.PHONY: javadoc
 .PHONY: setDeploy
 .PHONY: setStandalone
