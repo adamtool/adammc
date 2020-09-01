@@ -10,8 +10,6 @@ import uniol.apt.adt.pn.PetriNet;
 import uniol.apt.io.parser.ParseException;
 import uniol.apt.io.parser.impl.PnmlPNParser;
 import uniol.apt.module.exception.ModuleException;
-import uniolunisaar.adam.exceptions.pg.NoStrategyExistentException;
-import uniolunisaar.adam.exceptions.pg.NoSuitableDistributionFoundException;
 import uniolunisaar.adam.ds.logics.ltl.flowltl.RunLTLFormula;
 import uniolunisaar.adam.logic.parser.logics.flowltl.FlowLTLParser;
 import uniolunisaar.adam.util.PNWTTools;
@@ -79,7 +77,7 @@ public class BenchmarkTacas2018 extends AbstractSimpleModule {
     }
 
     @Override
-    public void execute(CommandLine line) throws IOException, InterruptedException, FileNotFoundException, ModuleException, NoSuitableDistributionFoundException, NoStrategyExistentException, ParseException, CommandLineParseException, Exception {
+    public void execute(CommandLine line) throws IOException, InterruptedException, FileNotFoundException, ModuleException, ParseException, CommandLineParseException, Exception {
         super.execute(line);
         String input = IOParameters.getInput(line);
         PetriNet net;
