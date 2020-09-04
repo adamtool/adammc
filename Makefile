@@ -6,7 +6,7 @@ DEPENDENCIES_REV="HEAD,HEAD,HEAD,HEAD,HEAD"
 FRAMEWORK_TARGETS = tools petrinetwithtransits
 MODELCHECKING_TARGETS = logics mc
 UI_TARGETS = ui adammc
-t=jar
+t=javac
 
 # should be executed no matter if a file with the same name exists or not
 .PHONY: check_dependencies
@@ -20,6 +20,8 @@ t=jar
 .PHONY: adammc
 .PHONY: deploy
 #.PHONY: javadoc
+.PHONY: setJavac
+.PHONY: setJar
 .PHONY: setDeploy
 .PHONY: setStandalone
 .PHONY: setClean
@@ -77,6 +79,9 @@ ui: check_dependencies
 
 adammc: check_dependencies
 	ant -buildfile ./build.xml $(t)
+
+setJavac:
+	$(eval t=javac)
 
 setDeploy:
 	$(eval t=deploy)
