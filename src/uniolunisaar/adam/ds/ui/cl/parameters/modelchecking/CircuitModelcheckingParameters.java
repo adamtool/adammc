@@ -1,4 +1,4 @@
-package uniolunisaar.adam.data.ui.cl.parameters.modelchecking;
+package uniolunisaar.adam.ds.ui.cl.parameters.modelchecking;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;

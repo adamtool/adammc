@@ -1,4 +1,4 @@
-package uniolunisaar.adam.data.ui.cl.parameters.modelchecking;
+package uniolunisaar.adam.ds.ui.cl.parameters.modelchecking;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import uniolunisaar.adam.ds.modelchecking.settings.ltl.AdamCircuitFlowLTLMCSetti
 import uniolunisaar.adam.ds.modelchecking.settings.ModelCheckingSettings;
 import uniolunisaar.adam.ds.modelchecking.statistics.AdamCircuitFlowLTLMCStatistics;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
-import static uniolunisaar.adam.data.ui.cl.parameters.modelchecking.CircuitLTLModelcheckingParameters.handleParameters;
+import static uniolunisaar.adam.ds.ui.cl.parameters.modelchecking.CircuitLTLModelcheckingParameters.handleParameters;
 
 /**
  *

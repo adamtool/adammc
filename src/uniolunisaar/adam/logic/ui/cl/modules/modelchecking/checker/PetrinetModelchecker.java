@@ -26,7 +26,7 @@ import uniolunisaar.adam.exceptions.pnwt.NetNotSafeException;
 import uniolunisaar.adam.tools.Tools;
 import uniolunisaar.adam.ds.ui.cl.parameters.IOParameters;
 import uniolunisaar.adam.logic.ui.cl.modules.AbstractSimpleModule;
-import uniolunisaar.adam.data.ui.cl.parameters.modelchecking.CircuitLTLModelcheckingParameters;
+import uniolunisaar.adam.ds.ui.cl.parameters.modelchecking.CircuitLTLModelcheckingParameters;
 import uniolunisaar.adam.ds.modelchecking.settings.ltl.AdamCircuitLTLMCSettings;
 import uniolunisaar.adam.ds.modelchecking.statistics.AdamCircuitLTLMCStatistics;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;

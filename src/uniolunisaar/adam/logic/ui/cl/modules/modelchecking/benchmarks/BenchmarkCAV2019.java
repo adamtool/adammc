@@ -20,7 +20,7 @@ import uniolunisaar.adam.ds.ui.cl.parameters.IOParameters;
 import uniolunisaar.adam.tools.Logger;
 import uniolunisaar.adam.tools.Tools;
 import uniolunisaar.adam.logic.ui.cl.modules.AbstractSimpleModule;
-import uniolunisaar.adam.data.ui.cl.parameters.modelchecking.CircuitFlowLTLModelcheckingParameters;
+import uniolunisaar.adam.ds.ui.cl.parameters.modelchecking.CircuitFlowLTLModelcheckingParameters;
 import uniolunisaar.adam.ds.circuits.CircuitRendererSettings;
 import uniolunisaar.adam.ds.modelchecking.output.AdamCircuitFlowLTLMCOutputData;
 import uniolunisaar.adam.ds.modelchecking.settings.ModelCheckingSettings;
