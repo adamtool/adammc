@@ -31,7 +31,7 @@ import uniolunisaar.adam.generators.pnwt.SDNCreator;
 import uniolunisaar.adam.logic.modelchecking.ltl.circuits.ModelCheckerFlowLTL;
 import uniolunisaar.adam.logic.modelchecking.ltl.circuits.ModelCheckerLTL;
 import uniolunisaar.adam.util.PNWTTools;
-import uniolunisaar.adam.util.mc.sdn.SDNFormelCreator;
+import uniolunisaar.adam.util.modelchecking.sdn.SDNFormelCreator;
 
 /**
  * @author Manuel Gieseking
