@@ -9,9 +9,9 @@ import uniolunisaar.adam.logic.ui.cl.modules.converter.modelchecking.SDN2Pdf;
 import uniolunisaar.adam.logic.ui.cl.modules.converter.petrinet.Pn2Pdf;
 import uniolunisaar.adam.logic.ui.cl.modules.converter.petrinet.Pn2Unfolding;
 import uniolunisaar.adam.logic.ui.cl.modules.modelchecking.checker.PetriNetWithTransitsModelchecker;
-import uniolunisaar.adam.logic.ui.cl.modules.modelchecking.generators.RedundantFlowNetworkModule;
-import uniolunisaar.adam.logic.ui.cl.modules.modelchecking.generators.RemoveNodeUpdateNetworkModule;
-import uniolunisaar.adam.logic.ui.cl.modules.modelchecking.generators.TopologieZooModule;
+import uniolunisaar.adam.logic.ui.cl.modules.generators.modelchecking.RedundantFlowNetworkModule;
+import uniolunisaar.adam.logic.ui.cl.modules.generators.modelchecking.RemoveNodeUpdateNetworkModule;
+import uniolunisaar.adam.logic.ui.cl.modules.generators.modelchecking.TopologieZooModule;
 import uniolunisaar.adam.logic.ui.cl.modules.modelchecking.checker.PetrinetModelchecker;
 import uniolunisaar.adam.logic.ui.cl.modules.modelchecking.checker.SDNModelchecker;
 

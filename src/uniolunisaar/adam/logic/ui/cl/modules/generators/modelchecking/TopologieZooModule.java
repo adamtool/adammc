@@ -1,4 +1,4 @@
-package uniolunisaar.adam.logic.ui.cl.modules.modelchecking.generators;
+package uniolunisaar.adam.logic.ui.cl.modules.generators.modelchecking;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
