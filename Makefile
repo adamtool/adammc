@@ -1,3 +1,5 @@
+## @author Manuel Gieseking
+
 # dependencies (folders and repos should be equally ordered)
 DEPENDENCIES_FOLDERS="libs,framework,logics,modelchecker,ui"
 DEPENDENCIES_REPOS="git@github.com:adamtool/libs.git,git@github.com:adamtool/framework.git,git@github.com:adamtool/logics.git,git@github.com:adamtool/modelchecker.git,git@github.com:adamtool/ui.git"
@@ -52,7 +54,7 @@ endef
 all: deploy
 
 check_dependencies:
-	if [ ! -d "dependencies" ]; then \
+	@if [ ! -d "dependencies" ]; then \
 		echo "The dependencies folder is missing. Please execute make pull_dependencies first.";\
 	fi
 
@@ -60,7 +62,7 @@ pull_dependencies:
 	./pull_dependencies.sh ${DEPENDENCIES_FOLDERS} ${DEPENDENCIES_REPOS} ${DEPENDENCIES_REV}
 
 rm_dependencies:
-	rm -rf dependencies
+	$(RM) -rf dependencies
 
 tools: check_dependencies
 	ant -buildfile ./dependencies/framework/tools/build.xml $(t)
@@ -103,12 +105,12 @@ deploy: $(FRAMEWORK_TARGETS) $(MODELCHECKING_TARGETS) ui setDeploy adammc
 	cp ./ADAM.properties ./deploy/ADAM.properties
 
 clean: setClean $(FRAMEWORK_TARGETS) $(MODELCHECKING_TARGETS) $(UI_TARGETS)
-	rm -r -f deploy
-	rm -r -f javadoc
+	$(RM) -r -f deploy
+	$(RM) -r -f javadoc
 
 clean-all: setCleanAll $(FRAMEWORK_TARGETS) $(MODELCHECKING_TARGETS) $(UI_TARGETS)
-	rm -r -f deploy
-	rm -r -f javadoc
+	$(RM) -r -f deploy
+	$(RM) -r -f javadoc
 
 #javadoc:
 #	ant javadoc

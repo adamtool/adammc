@@ -60,7 +60,6 @@
 		<antcall target="mc.fu.javadoc"/>
 	</target>
     <target name="deploy" depends="clean-all,jar-standalone" description="Builds a jar with all its dependencies">
-        <echo message="asdf" />
 		<jar destfile="adam_mc.jar">
 			<zipfileset includes="**/*.class" src="./adam_mc-standalone.jar"/>
 			<zipfileset includes="**/*.stg" src="./adam_mc-standalone.jar"/>
