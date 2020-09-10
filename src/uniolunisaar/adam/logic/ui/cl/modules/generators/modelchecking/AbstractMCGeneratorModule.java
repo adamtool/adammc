@@ -62,7 +62,7 @@ public abstract class AbstractMCGeneratorModule extends AbstractSimpleModule {
     void save(PetriNetWithTransits net, CommandLine line, boolean withPDF) throws FileNotFoundException, ModuleException, IOException, InterruptedException {
         String output = line.getOptionValue(PARAMETER_OUTPUT);
 
-        PNWTTools.saveAPT(output, net, false);
+        PNWTTools.saveAPT(output, net, true, true);
         if (withPDF) {
             PNWTTools.savePnwt2PDF(output, net, true);
         }
