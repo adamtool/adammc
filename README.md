@@ -1,5 +1,5 @@
-Modelchecking Petri nets with Transits against Flow-LTL/CTL
-===========================================================
+Model checking Petri nets with Transits against Flow-LTL/CTL
+============================================================
 A framework for model checking Petri nets with transits against Flow-LTL and Flow-CTL.
 This module is the model and controller part of AdamMC.
 It uses
