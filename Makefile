@@ -2,7 +2,7 @@
 
 # dependencies (folders and repos should be equally ordered)
 DEPENDENCIES_FOLDERS="libs,framework,logics,modelchecker,ui"
-DEPENDENCIES_REPOS="git@github.com:adamtool/libs.git,git@github.com:adamtool/framework.git,git@github.com:adamtool/logics.git,git@github.com:adamtool/modelchecker.git,git@github.com:adamtool/ui.git"
+DEPENDENCIES_REPOS="https://github.com/adamtool/libs.git,https://github.com/adamtool/framework.git,https://github.com/adamtool/logics.git,https://github.com/adamtool/modelchecker.git,https://github.com/adamtool/ui.git"
 DEPENDENCIES_REV="HEAD,HEAD,HEAD,HEAD,HEAD"
 # the build target
 FRAMEWORK_TARGETS = tools petrinetwithtransits
