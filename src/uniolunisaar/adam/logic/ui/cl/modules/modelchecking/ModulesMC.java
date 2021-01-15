@@ -49,4 +49,9 @@ public class ModulesMC extends Modules {
         return modules;
     }
 
+    @Override
+    public String getToolName() {
+        return "adamMC";
+    }
+
 }

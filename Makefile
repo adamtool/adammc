@@ -34,7 +34,7 @@ t=javac
 .PHONY: src
 
 # functions
-create_bashscript = \#!/bin/bash\n\nBASEDIR=\"\044(dirname \044\060)\"\n\nif [ ! -f \"\044BASEDIR/Adam$(strip $(1)).jar\" ] ; then\n\techo \"Adam$(strip $(1)).jar not found! Run 'ant jar' first!\" >&2\n\texit 127\nfi\n\njava -DPROPERTY_FILE=./ADAM.properties -Dfile.encoding=UTF-8 -jar \"\044BASEDIR/Adam$(strip $(1)).jar\" \"\044@\"
+create_bashscript = \#!/bin/bash\n\nBASEDIR=\"\044(dirname \044\060)\"\n\nif [ ! -f \"\044BASEDIR/adam$(strip $(1)).jar\" ] ; then\n\techo \"adam$(strip $(1)).jar not found! Run 'ant jar' first!\" >&2\n\texit 127\nfi\n\njava -DPROPERTY_FILE=./ADAM.properties -Dfile.encoding=UTF-8 -jar \"\044BASEDIR/adam$(strip $(1)).jar\" \"\044@\"
 
 define generate_src
 	mkdir -p adam_src
@@ -99,9 +99,9 @@ setCleanAll:
 
 deploy: $(FRAMEWORK_TARGETS) $(MODELCHECKING_TARGETS) ui setDeploy adammc
 	mkdir -p deploy
-	echo "$(call create_bashscript, MC)" > ./deploy/AdamMC
-	chmod +x ./deploy/AdamMC
-	cp ./adam_mc.jar ./deploy/AdamMC.jar
+	echo "$(call create_bashscript, MC)" > ./deploy/adamMC
+	chmod +x ./deploy/adamMC
+	cp ./adam_mc.jar ./deploy/adamMC.jar
 	cp ./ADAM.properties ./deploy/ADAM.properties
 
 clean: setClean $(FRAMEWORK_TARGETS) $(MODELCHECKING_TARGETS) $(UI_TARGETS)
