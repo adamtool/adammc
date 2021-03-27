@@ -29,7 +29,7 @@ import uniolunisaar.adam.ds.modelchecking.settings.ltl.AdamCircuitFlowLTLMCSetti
 import uniolunisaar.adam.ds.modelchecking.settings.ltl.AdamCircuitMCSettings;
 import uniolunisaar.adam.exceptions.ui.cl.CommandLineParseException;
 import uniolunisaar.adam.logic.externaltools.modelchecking.Abc.VerificationAlgo;
-import uniolunisaar.adam.logic.transformers.pn2aiger.AigerRenderer;
+import uniolunisaar.adam.logic.transformers.petrinet.pn2aiger.AigerRenderer;
 
 /**
  *

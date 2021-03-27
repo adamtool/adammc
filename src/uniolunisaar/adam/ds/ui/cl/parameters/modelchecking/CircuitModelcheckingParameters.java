@@ -16,7 +16,7 @@ import uniolunisaar.adam.logic.externaltools.modelchecking.Abc;
 import uniolunisaar.adam.logic.externaltools.modelchecking.Abc.VerificationAlgo;
 import uniolunisaar.adam.logic.externaltools.pnwt.AigToAig;
 import uniolunisaar.adam.logic.externaltools.pnwt.AigToDot;
-import uniolunisaar.adam.logic.transformers.pn2aiger.AigerRenderer;
+import uniolunisaar.adam.logic.transformers.petrinet.pn2aiger.AigerRenderer;
 import uniolunisaar.adam.tools.Logger;
 
 /**
