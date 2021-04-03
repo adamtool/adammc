@@ -36,7 +36,7 @@ For **Flow-CTL**:
   [Model Checking Branching Properties on Petri Nets with Transits](
 https://doi.org/10.1007/978-3-030-59152-6_22). ATVA 2020: 394-410 [(Full Version)](https://arxiv.org/abs/2007.07235). 
 
-**AdamMC** <img src="./doc/images/aec-badge-cav_trans.png" alt="CAV Artifact Evaluation Badge" width="25mm" height="25mm">:
+**AdamMC** <img src="./doc/images/aec-badge-cav_outer_trans.png" alt="CAV Artifact Evaluation Badge" width="25mm" height="25mm">:
 - _Bernd Finkbeiner, Manuel Gieseking, Jesko Hecking-Harbusch, Ernst-Rüdiger Olderog:_
   [AdamMC: A Model Checker for Petri Nets with Transits against Flow-LTL](https://doi.org/10.1007/978-3-030-53291-8_5). CAV (2) 2020: 64-76 [(Full Version)](https://arxiv.org/abs/2005.07130).
 
