@@ -11,6 +11,7 @@ import uniolunisaar.adam.logic.ui.cl.modules.converter.petrinet.Pn2Unfolding;
 import uniolunisaar.adam.logic.ui.cl.modules.modelchecking.checker.PetriNetWithTransitsModelchecker;
 import uniolunisaar.adam.logic.ui.cl.modules.generators.modelchecking.RedundantFlowNetworkModule;
 import uniolunisaar.adam.logic.ui.cl.modules.generators.modelchecking.RemoveNodeUpdateNetworkModule;
+import uniolunisaar.adam.logic.ui.cl.modules.generators.modelchecking.SDNFormulaCreationModule;
 import uniolunisaar.adam.logic.ui.cl.modules.generators.modelchecking.TopologieZooModule;
 import uniolunisaar.adam.logic.ui.cl.modules.modelchecking.checker.PetrinetModelchecker;
 import uniolunisaar.adam.logic.ui.cl.modules.modelchecking.checker.SDNModelchecker;
@@ -42,6 +43,7 @@ public class ModulesMC extends Modules {
         new RemoveNodeUpdateNetworkModule(),
         new RedundantFlowNetworkModule(),
         new TopologieZooModule(), //        new SmartFactoryModule()
+        new SDNFormulaCreationModule()
     };
 
     @Override
